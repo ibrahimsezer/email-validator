@@ -1,4 +1,4 @@
-import 'package:email_validator/email_validator.dart';
+import 'package:email_validator/viewmodel/email_validator_viewmodel.dart';
 import 'package:test/test.dart';
 
 void main() {
