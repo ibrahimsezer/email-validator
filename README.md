@@ -3,7 +3,7 @@
 [![Dart](https://img.shields.io/badge/Dart-3.6.0-blue.svg)](https://dart.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A robust email validation tool built with Dart that performs comprehensive email address verification including format validation, domain verification, and MX record checking.
+An e-mail verification tool including format verification, domain validation and MX recording control.
 
 ## Features
 
