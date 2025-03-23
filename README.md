@@ -67,6 +67,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - GitHub: [@ibrahimsezer](https://github.com/ibrahimsezer)
 - Portfolio: [ibrahimsezer.github.io](https://ibrahimsezer.github.io)
 
-## License
-
-This project is [MIT](https://opensource.org/licenses/MIT) licensed.
