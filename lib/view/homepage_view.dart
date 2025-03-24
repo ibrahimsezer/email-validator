@@ -1,3 +1,4 @@
+import 'package:email_validator/shared/widgets/loading_button.dart';
 import 'package:email_validator/viewmodel/email_validator_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,128 +27,122 @@ class _HomepageViewState extends State<HomepageView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        Provider.of<EmailValidatorViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Email Validator'),
         centerTitle: true,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _emailController,
-                focusNode: _focusNode,
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  hintText: 'example@domain.com',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  focusNode: _focusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    hintText: 'example@domain.com',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[50],
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[50],
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email address';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    email = _emailController.text;
-                    if (email != null) {
-                      final vmStatus = Provider.of<EmailValidatorViewModel>(
-                          context,
-                          listen: false);
-                      final getStatus =
-                          await vmStatus.checkMailInfo(rows, email!);
-                      setState(() {
-                        _validationStatus = getStatus;
-                      });
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Error'),
-                              content: const Text('Email is empty'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            );
-                          });
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email address';
                     }
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                    return null;
+                  },
                 ),
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color.fromARGB(255, 20, 19, 19)),
-                        ),
-                      )
-                    : const Text(
-                        'Validate Email',
-                        style: TextStyle(fontSize: 16),
-                      ),
-              ),
-              if (_validationStatus != null) ...[
                 const SizedBox(height: 24),
-                Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Validation Results',
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
+                MUILoadingButton(
+                  text: "Validate Email",
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      email = _emailController.text;
+                      if (email != null) {
+                        final vmStatus = Provider.of<EmailValidatorViewModel>(
+                            context,
+                            listen: false);
+                        final getStatus =
+                            await vmStatus.checkMailInfo(rows, email!);
+                        setState(() {
+                          _validationStatus = getStatus;
+                        });
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content: const Text('Email is empty'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
                                   ),
-                        ),
-                        const SizedBox(height: 16),
-                        _buildResultRow('Email', _emailController.text),
-                        _buildResultRow('Status', _validationStatus ?? ''),
-                        _buildResultRow(
-                            'Domain', _emailController.text.split('@').last),
-                        _buildResultRow('MX Records', rows.toList().toString()),
-                      ],
+                                ],
+                              );
+                            });
+                      }
+                    }
+                  },
+                ),
+                if (_validationStatus != null) ...[
+                  const SizedBox(height: 24),
+                  Card(
+                    elevation: 2,
+                    color: Theme.of(context).colorScheme.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Validation Results',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                              ),
+                              Spacer(),
+                              MUILoadingButton(
+                                  text: 'Save Results', onPressed: () async {})
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          _buildResultRow('Email', _emailController.text),
+                          _buildResultRow('Status', _validationStatus ?? ''),
+                          _buildResultRow(
+                              'Domain', _emailController.text.split('@').last),
+                          _buildResultRow(
+                              'MX Records', rows.toList().toString()),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

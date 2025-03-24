@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 class EmailValidatorViewModel extends ChangeNotifier {
   Future<void> writeToCsv(List<List<dynamic>> rows, String filePath) async {
