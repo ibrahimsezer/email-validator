@@ -32,6 +32,15 @@ class _HomepageViewState extends State<HomepageView> {
         title: const Text('Email Validator'),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.list),
+            tooltip: 'Bulk Verification',
+            onPressed: () {
+              Navigator.pushNamed(context, '/bulk');
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Form(

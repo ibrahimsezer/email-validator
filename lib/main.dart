@@ -1,4 +1,5 @@
 import 'package:email_validator/view/homepage_view.dart';
+import 'package:email_validator/view/bulk_verification_view.dart';
 import 'package:email_validator/viewmodel/email_validator_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: HomepageView(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomepageView(),
+        '/bulk': (context) => const BulkVerificationView(),
+      },
     );
   }
 }
