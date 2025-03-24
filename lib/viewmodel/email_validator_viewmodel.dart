@@ -58,13 +58,13 @@ class EmailValidatorViewModel extends ChangeNotifier {
       String status;
 
       if (isEmailValid && isDomainValidFlag) {
-        status = "$email - ${email.split('@').last}";
+        status = "Valid";
       } else if (isEmailValid) {
-        status = "$email - Domain is not valid";
+        status = "Domain is not valid";
       } else if (isDomainValidFlag) {
-        status = "$email - Email is not valid";
+        status = "Email is not valid";
       } else {
-        status = "$email - Email and Domain are not valid";
+        status = "Email and Domain are not valid";
       }
 
       rows.add([email, status, mxRecords.join('; ')]);

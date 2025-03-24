@@ -16,9 +16,7 @@ class _HomepageViewState extends State<HomepageView> {
   final bool _isLoading = false;
   String? _validationStatus;
   String? email = "";
-  List<List<dynamic>> rows = [
-    ['Email', "Status", "MX Records"]
-  ];
+  List<List<dynamic>> rows = [];
   @override
   void dispose() {
     _emailController.dispose();
@@ -110,8 +108,8 @@ class _HomepageViewState extends State<HomepageView> {
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Color.fromARGB(255, 20, 19, 19)),
                         ),
                       )
                     : const Text(
@@ -167,10 +165,28 @@ class _HomepageViewState extends State<HomepageView> {
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           Expanded(
-            child: Text(value),
+            child: label == 'MX Records'
+                ? Text(_formatMXRecords(value))
+                : Text(value),
           ),
         ],
       ),
     );
+  }
+
+  String _formatMXRecords(String records) {
+    if (records.isEmpty) return 'No MX Records found';
+
+    final List<String> lines = records
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(',')
+        .map((record) => record.trim())
+        .where((record) => record.isNotEmpty)
+        .toList();
+
+    if (lines.length <= 1) return 'No valid MX Records found';
+
+    return lines.map((record) => '• $record').join('\n');
   }
 }
